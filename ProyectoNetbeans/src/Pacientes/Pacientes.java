@@ -32,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Tom
  */
 public class Pacientes extends javax.swing.JFrame {
+    
+    public int numBorrados = 1;
   
     /**
      * Creates new form Pacientes
@@ -207,6 +209,11 @@ public class Pacientes extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public int getBorrados(){
+        return numBorrados;
+    }
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int idPaciente;
@@ -217,8 +224,11 @@ public class Pacientes extends javax.swing.JFrame {
             ConexionMySQL mysql= new ConexionMySQL();
             Connection cn= mysql.Conectar();
             try {
-                PreparedStatement pst=cn.prepareStatement("UPDATE paciente SET mostrar=0 WHERE idPaciente = "+idPaciente+"");            
-                 int n =pst.executeUpdate();            
+                //PreparedStatement pst=cn.prepareStatement("UPDATE paciente SET mostrar=0 WHERE idPaciente = "+idPaciente+"");  
+                PreparedStatement pst=cn.prepareStatement("DELETE from paciente WHERE idPaciente = "+idPaciente+"");             
+                
+                 int n =pst.executeUpdate();    
+                 numBorrados++;
                 if (n>0)
                 {
                     JOptionPane.showMessageDialog(null,"Paciente eliminado","Mensaje",JOptionPane.INFORMATION_MESSAGE);  

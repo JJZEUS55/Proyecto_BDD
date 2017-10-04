@@ -629,8 +629,11 @@ public class Paciente extends javax.swing.JFrame {
         
         try {
             String aSQL="UPDATE paciente SET cantidadPagada='"+df.format(cantidadPagada)+"' WHERE idPaciente='"+jLIDPaciente.getText()+"'";
+            String aSQLCosto = "UPDATE costos SET cantidad='"+df.format(cantidadDebida-cantidadPagada)+"' WHERE idPaciente='"+jLIDPaciente.getText()+"'";
             PreparedStatement pst=cn.prepareStatement(aSQL);
+            PreparedStatement pst1 = cn.prepareStatement(aSQLCosto);
             pst.executeUpdate();
+            pst1.executeUpdate();
             jLCantidad.setText("$"+df.format(cantidadDebida-cantidadPagada));            
         }
         catch(SQLException e){
@@ -643,7 +646,8 @@ public class Paciente extends javax.swing.JFrame {
         ConexionMySQL mysql = new ConexionMySQL();
         Connection cn= mysql.Conectar();  
         try {
-            String aSQL="UPDATE citas SET actual='0' WHERE actual='1' and idPaciente='"+jLIDPaciente.getText()+"'";
+            //String aSQL="UPDATE citas SET actual='0' WHERE actual='1' and idPaciente='"+jLIDPaciente.getText()+"'";
+            String aSQL="DELETE FROM citas WHERE idPaciente='"+jLIDPaciente.getText()+"'";
             PreparedStatement pst=cn.prepareStatement(aSQL);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "La cita ha finalizado");

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package RegistrarPaciente;
+
 import BaseDatos.ConexionMySQL;
 import Citas.Citas;
 import Paciente.Paciente;
@@ -41,32 +42,34 @@ import javax.swing.table.DefaultTableModel;
  * @author Tom
  */
 public class RegistrarPaciente extends javax.swing.JFrame {
-   /**
-     * Se le establece el texto que se mostrara en la ventana de "Examinar"
-     * y el tipo de formatos que aceptara (en este caso Jpg)
+
+    /**
+     * Se le establece el texto que se mostrara en la ventana de "Examinar" y el
+     * tipo de formatos que aceptara (en este caso Jpg)
      */
-private FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de imagen ","jpg");
-     /**
+    private FileNameExtensionFilter Filter = new FileNameExtensionFilter("Archivo de imagen ", "jpg");
+    /**
      * Se especifica el formato de los colores en RGB
      */
-private static final int[] RGB_MASKS = {0xFF0000, 0xFF00, 0xFF};
-private static final ColorModel RGB_OPAQUE =
-    new DirectColorModel(32, RGB_MASKS[0], RGB_MASKS[1], RGB_MASKS[2]);
-     /**
-     * Se crea una variable llamada "rutaimagen" la cual obtendra la direccion (Url)
-     * obtenida de la ventana Examinar
+    private static final int[] RGB_MASKS = {0xFF0000, 0xFF00, 0xFF};
+    private static final ColorModel RGB_OPAQUE
+            = new DirectColorModel(32, RGB_MASKS[0], RGB_MASKS[1], RGB_MASKS[2]);
+    /**
+     * Se crea una variable llamada "rutaimagen" la cual obtendra la direccion
+     * (Url) obtenida de la ventana Examinar
      */
-String rutaimagen;
+    String rutaimagen;
 
-     /**
-     * Se crea una variable string para la cual cambiara con el boton de "Ver datos" de cada alumno
-     * esto quiere decir que dependiendo de que alumno quieras ver sus datos sera su valor,
-     * cada boton le asigna un valor diferente
+    /**
+     * Se crea una variable string para la cual cambiara con el boton de "Ver
+     * datos" de cada alumno esto quiere decir que dependiendo de que alumno
+     * quieras ver sus datos sera su valor, cada boton le asigna un valor
+     * diferente
      */
     public RegistrarPaciente() {
         initComponents();
-        rutaimagen="";
-        
+        rutaimagen = "";
+
     }
 
     /**
@@ -284,285 +287,273 @@ String rutaimagen;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-int numeroPaciente=1;
+int numeroPaciente = 1;
 
     private void JLCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JLCancelarMouseClicked
         // Boton de cancelar
-        Pacientes cancelar=new Pacientes();
-        JOptionPane.showMessageDialog(null,"No se registró ningun paciente","Cancelar",JOptionPane.INFORMATION_MESSAGE);  
+        Pacientes cancelar = new Pacientes();
+        JOptionPane.showMessageDialog(null, "No se registró ningun paciente", "Cancelar", JOptionPane.INFORMATION_MESSAGE);
         cancelar.setLocationRelativeTo(null);
         cancelar.jLIDDentista.setText(jLIDDentista.getText());
         ConexionMySQL mysql = new ConexionMySQL();
-        Connection cn= mysql.Conectar();
+        Connection cn = mysql.Conectar();
         try {
-                                    Statement s1 = cn.createStatement();
-                                    ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1");     
-                                    ResultSetMetaData rsmd=rs1.getMetaData();        
-                                    int numeroColumnas=rsmd.getColumnCount();
-                                    DefaultTableModel modelo=new DefaultTableModel();
-                                    cancelar.TablaPacientes.setModel(modelo);
-                                    for(int x=1;x<=numeroColumnas;x++){
-                                        modelo.addColumn(rsmd.getColumnName(x));
-                                    }        
-                                    while(rs1.next()){
-                                     Object [] fila=new Object[numeroColumnas];
-                                     for(int y=0;y<numeroColumnas;y++){
-                                        fila [y] =(String) rs1.getObject(y+1).toString();
-                                    }
-                                     modelo.addRow(fila);
-                                    }
-                                     rs1.close();
-                                }
-                                catch(SQLException e){
-                                    JOptionPane.showMessageDialog(null,"Problema al conectar");
-                                }
+            Statement s1 = cn.createStatement();
+            ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1");
+            ResultSetMetaData rsmd = rs1.getMetaData();
+            int numeroColumnas = rsmd.getColumnCount();
+            DefaultTableModel modelo = new DefaultTableModel();
+            cancelar.TablaPacientes.setModel(modelo);
+            for (int x = 1; x <= numeroColumnas; x++) {
+                modelo.addColumn(rsmd.getColumnName(x));
+            }
+            while (rs1.next()) {
+                Object[] fila = new Object[numeroColumnas];
+                for (int y = 0; y < numeroColumnas; y++) {
+                    fila[y] = (String) rs1.getObject(y + 1).toString();
+                }
+                modelo.addRow(fila);
+            }
+            rs1.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Problema al conectar");
+        }
         cancelar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_JLCancelarMouseClicked
 
     private void BtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegistrarActionPerformed
         // Boton de registrar
-        
+
         ConexionMySQL mysql = new ConexionMySQL();
-        Connection cn= mysql.Conectar();
-        numeroPaciente=1;
+        Connection cn = mysql.Conectar();
+        numeroPaciente = 1;
+        Pacientes pa = new Pacientes();
+        int numBorrados = pa.getBorrados();
         try {
             Statement s = cn.createStatement();
-            ResultSet rs = s.executeQuery("SELECT count(*) from paciente");     
-            if(rs.next()) {
-                    numeroPaciente+=Integer.parseInt((String)rs.getObject(1).toString());
-                    JOptionPane.showMessageDialog(null,"El numero de este paciente será el "+numeroPaciente);
+            ResultSet rs = s.executeQuery("select  idPaciente from paciente \n"
+                    + "order by idPaciente desc limit 1");
+            if (rs.next()) {
+                numeroPaciente += Integer.parseInt((String) rs.getObject(1).toString());
+                JOptionPane.showMessageDialog(null, "El numero de este paciente será el " + numeroPaciente);
             }
             rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Problema al conectar");
         }
-        catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"Problema al conectar");
-        } 
-        
-        
-        int i=0;
-        boolean bandera=false;
-        if((TxtNombres.getText().length()!=0)&&(TxtApellidos.getText().length()!=0)&&(TxtEdad.getText().length()!=0)&&(TxtSexo.getText().length()!=0)&&(TxtDomicilio.getText().length()!=0)&&(TxtCurp.getText().length()!=0)&&(TxtTelefono.getText().length()!=0)&&(TxtMail.getText().length()!=0)){
-            JOptionPane.showMessageDialog(null,"No hay ningun campo vacio");
-            for(i=0;i<(TxtNombres.getText()).length()&&bandera==false;i++){
-                if((TxtNombres.getText()).charAt(i)>='0'&&(TxtNombres.getText()).charAt(i)<='9'){
-                    bandera=true;
-                    JOptionPane.showMessageDialog(null,"El nombre no puede contener numeros");
-                }
-            }
-            for(i=0;i<(TxtApellidos.getText()).length()&&bandera==false;i++){
-                if((TxtApellidos.getText()).charAt(i)>='0'&&(TxtApellidos.getText()).charAt(i)<='9'){
-                    bandera=true;
-                    JOptionPane.showMessageDialog(null,"Los apellidos no pueden contener numeros");
-                }
-            }
-            for(i=0;i<(TxtEdad.getText()).length()&&bandera==false;i++){
-                if((TxtEdad.getText()).charAt(i)<'0'||(TxtEdad.getText()).charAt(i)>'9'){
-                    bandera=true;
-                    JOptionPane.showMessageDialog(null,"La edad solo admite numeros");
-                }
-            }
-            if(((Integer.parseInt(String.valueOf(TxtEdad.getText()))<5)||(Integer.parseInt(String.valueOf(TxtEdad.getText()))>100))&&(bandera==false)){
-                bandera=true;
-                JOptionPane.showMessageDialog(null,"La edad debe estar entre 5 y 100 años");
-            }
-            if((!TxtSexo.getText().toLowerCase().equals("hombre"))&&(!TxtSexo.getText().toLowerCase().equals("mujer"))&&(bandera==false)){
-                bandera=true;
-                JOptionPane.showMessageDialog(null,"Solo puede haber sexo 'hombre' o 'mujer'");
-            }
-            if (TxtCurp.getText().length()!=18&&(bandera==false)){
-                bandera=true;
-                JOptionPane.showMessageDialog(null,"El CURP se compone de 18 digitos siempre");
-            }
-            for(i=0;i<(TxtTelefono.getText()).length()&&bandera==false;i++){
-                if((TxtTelefono.getText()).charAt(i)<'0'||(TxtTelefono.getText()).charAt(i)>'9'){
-                    bandera=true;
-                    JOptionPane.showMessageDialog(null,"El telefono solo admite numeros");
-                }
-            }
-            
-            
-            if(bandera==false){ 
-            String aSQL="insert into paciente (idPaciente,dentistaAsignado,nombres,apellidos,edad,sexo,domicilio,CURP,telefono,email,mostrar,cantidadpagada)"+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-             try {
-                            PreparedStatement pst=cn.prepareStatement(aSQL);
-                            pst.setString(1, ""+numeroPaciente);
-                            pst.setString(2, jLIDDentista.getText()); 
-                            pst.setString(3, TxtNombres.getText()); 
-                            pst.setString(4, TxtApellidos.getText()); 
-                            pst.setString(5, TxtEdad.getText()); 
-                            pst.setString(6, ""+TxtSexo.getText().toUpperCase().charAt(0)); 
-                            pst.setString(7, TxtDomicilio.getText()); 
-                            pst.setString(8, TxtCurp.getText());    
-                            pst.setString(9, TxtTelefono.getText());                          
-                            pst.setString(10, TxtMail.getText()); 
-                            pst.setString(11, "1"); 
-                            pst.setString(12, "0"); 
-                            int n =pst.executeUpdate();
-                            if (n>0)
-                            { 
-                                /**Aqui va el codigo para registrar el odontograma*/
-                                String aSQL1="insert into odontograma value("+numeroPaciente+",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
-                                try{
-                                    PreparedStatement pst1=cn.prepareStatement(aSQL1);
-                                    int n1=pst1.executeUpdate();
-                                    if (n1>0){
-                                        JOptionPane.showMessageDialog(null, "correcto");
-                                    }
-                                }
-                                catch (SQLException ex) {
-                                    JOptionPane.showMessageDialog(null,ex);
-                                }   
-                                
-                                int seleccion = -1;
-                                seleccion = JOptionPane.showOptionDialog(null,"Seleccione opcion","Datos correctos, seleccione una opción",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,new Object[] { "Asignarle alguna cita", "Regresar a la lista de pacientes", "Abrir paciente" }, "Asignarle alguna cita");
-                                if (seleccion ==0){
-                                    JOptionPane.showMessageDialog(null,"Asignar una cita ");
-                                    Citas abrir=new Citas();
-                                    abrir.setLocationRelativeTo(null);
-                                    abrir.jLIDDentista.setText(jLIDDentista.getText());
-                                    abrir.jLIDPaciente.setText(""+numeroPaciente);
-                                     abrir.setVisible(true);
-                                     this.setVisible(false);
-                                }
-                                else if (seleccion ==1){
-                                    JOptionPane.showMessageDialog(null,"Paciente registrado");
-                                    Pacientes registrar=new Pacientes();                                
-                                    registrar.setLocationRelativeTo(null);
-                                    registrar.jLIDDentista.setText(jLIDDentista.getText());
-                                    try {
-                                        Statement s1 = cn.createStatement();
-                                        ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1");     
-                                        ResultSetMetaData rsmd=rs1.getMetaData();        
-                                        int numeroColumnas=rsmd.getColumnCount();
-                                        DefaultTableModel modelo=new DefaultTableModel();
-                                        registrar.TablaPacientes.setModel(modelo);
-                                        for(int x=1;x<=numeroColumnas;x++){
-                                            modelo.addColumn(rsmd.getColumnName(x));
-                                        }        
-                                        while(rs1.next()){
-                                         Object [] fila=new Object[numeroColumnas];
-                                         for(int y=0;y<numeroColumnas;y++){
-                                            fila [y] =(String) rs1.getObject(y+1).toString();
-                                        }
-                                         modelo.addRow(fila);
-                                        }
-                                         rs1.close();
-                                    }
-                                    catch(SQLException e){
-                                        JOptionPane.showMessageDialog(null,"Problema al conectar");
-                                    }
-                                    registrar.setVisible(true);
-                                    this.setVisible(false);
-                                }
-                                else if (seleccion ==2){
-                                    JOptionPane.showMessageDialog(null,"Abrir paciente");
 
-                                    boolean i1=false;
-                                    try {
-                                        Statement s1 = cn.createStatement();
-                                        ResultSet rs1 = s1.executeQuery("SELECT nombres,apellidos,edad,sexo,domicilio,curp FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1 AND idPaciente = '"+numeroPaciente+"'"); 
-                                        while(rs1.next()){
-                                            String sFichero = "src\\ImagenesPaciente\\"+numeroPaciente+".jpg";
-                                            File fichero = new File(sFichero);
-                                            ImageIcon icon;
-                                            if (fichero.exists())
-                                            {
-                                              icon=new ImageIcon("src\\ImagenesPaciente\\"+numeroPaciente+".jpg");  
-                                            }
-                                            else
-                                            {
-                                               icon=new ImageIcon("src\\ImagenesPaciente\\SinImagen.png");  
-                                            }
-                                            Image img= icon.getImage();
-                                            Image newimg = img.getScaledInstance(150, 175, java.awt.Image.SCALE_SMOOTH);
-                                            ImageIcon newIcon = new ImageIcon(newimg);
-                                            Paciente verPaciente=new Paciente();
-                                            verPaciente.JLNombre1.setText((String) rs1.getObject(1).toString());
-                                            verPaciente.JLApellidos1.setText((String) rs1.getObject(2).toString());
-                                            verPaciente.JLEdad1.setText((String) rs1.getObject(3).toString());
-                                            verPaciente.JSexo1.setText((String) rs1.getObject(4));
-                                            verPaciente.JLDomicilio1.setText((String) rs1.getObject(5).toString());
-                                            verPaciente.JLCurp1.setText((String) rs1.getObject(6).toString());
-                                            verPaciente.jLimagen.setIcon(newIcon);
-                                            verPaciente.jLimagen.setSize(150,175);   
-                                            verPaciente.setLocationRelativeTo(null);
-                                            verPaciente.jLIDDentista.setText(jLIDDentista.getText());
-                                            verPaciente.jLIDPaciente.setText(""+numeroPaciente);
-                                            verPaciente.setTitle("Información de: "+rs1.getObject(1).toString());
-                                            verPaciente.setVisible(true);
-                                            this.setVisible(false);
-                                            i1=true;
-                                        }
-                                        if(i1==false){
-                                            JOptionPane.showMessageDialog(null,"El paciente no existe o le corresponde a otro doctor");
-                                        }
-                                        rs1.close();
-                                    }
-                                        catch(SQLException e){
-                                            JOptionPane.showMessageDialog(null,"Problema al conectar");
-                                        } 
-                                }                            
-                                 
-                            }        
-                        } 
-                        catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null,ex);
-                        }        
+        int i = 0;
+        boolean bandera = false;
+        if ((TxtNombres.getText().length() != 0) && (TxtApellidos.getText().length() != 0) && (TxtEdad.getText().length() != 0) && (TxtSexo.getText().length() != 0) && (TxtDomicilio.getText().length() != 0) && (TxtCurp.getText().length() != 0) && (TxtTelefono.getText().length() != 0) && (TxtMail.getText().length() != 0)) {
+            JOptionPane.showMessageDialog(null, "No hay ningun campo vacio");
+            for (i = 0; i < (TxtNombres.getText()).length() && bandera == false; i++) {
+                if ((TxtNombres.getText()).charAt(i) >= '0' && (TxtNombres.getText()).charAt(i) <= '9') {
+                    bandera = true;
+                    JOptionPane.showMessageDialog(null, "El nombre no puede contener numeros");
+                }
             }
+            for (i = 0; i < (TxtApellidos.getText()).length() && bandera == false; i++) {
+                if ((TxtApellidos.getText()).charAt(i) >= '0' && (TxtApellidos.getText()).charAt(i) <= '9') {
+                    bandera = true;
+                    JOptionPane.showMessageDialog(null, "Los apellidos no pueden contener numeros");
+                }
+            }
+            for (i = 0; i < (TxtEdad.getText()).length() && bandera == false; i++) {
+                if ((TxtEdad.getText()).charAt(i) < '0' || (TxtEdad.getText()).charAt(i) > '9') {
+                    bandera = true;
+                    JOptionPane.showMessageDialog(null, "La edad solo admite numeros");
+                }
+            }
+            if (((Integer.parseInt(String.valueOf(TxtEdad.getText())) < 5) || (Integer.parseInt(String.valueOf(TxtEdad.getText())) > 100)) && (bandera == false)) {
+                bandera = true;
+                JOptionPane.showMessageDialog(null, "La edad debe estar entre 5 y 100 años");
+            }
+            if ((!TxtSexo.getText().toLowerCase().equals("hombre")) && (!TxtSexo.getText().toLowerCase().equals("mujer")) && (bandera == false)) {
+                bandera = true;
+                JOptionPane.showMessageDialog(null, "Solo puede haber sexo 'hombre' o 'mujer'");
+            }
+            if (TxtCurp.getText().length() != 18 && (bandera == false)) {
+                bandera = true;
+                JOptionPane.showMessageDialog(null, "El CURP se compone de 18 digitos siempre");
+            }
+            for (i = 0; i < (TxtTelefono.getText()).length() && bandera == false; i++) {
+                if ((TxtTelefono.getText()).charAt(i) < '0' || (TxtTelefono.getText()).charAt(i) > '9') {
+                    bandera = true;
+                    JOptionPane.showMessageDialog(null, "El telefono solo admite numeros");
+                }
+            }
+
+            if (bandera == false) {
+                String aSQL = "insert into paciente (idPaciente,dentistaAsignado,nombres,apellidos,edad,sexo,domicilio,CURP,telefono,email,mostrar,cantidadpagada)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                try {
+                    PreparedStatement pst = cn.prepareStatement(aSQL);
+                    pst.setString(1, "" + numeroPaciente);
+                    pst.setString(2, jLIDDentista.getText());
+                    pst.setString(3, TxtNombres.getText());
+                    pst.setString(4, TxtApellidos.getText());
+                    pst.setString(5, TxtEdad.getText());
+                    pst.setString(6, "" + TxtSexo.getText().toUpperCase().charAt(0));
+                    pst.setString(7, TxtDomicilio.getText());
+                    pst.setString(8, TxtCurp.getText());
+                    pst.setString(9, TxtTelefono.getText());
+                    pst.setString(10, TxtMail.getText());
+                    pst.setString(11, "1");
+                    pst.setString(12, "0");
+                    int n = pst.executeUpdate();
+                    if (n > 0) {
+                        /**
+                         * Aqui va el codigo para registrar el odontograma
+                         */
+                        String aSQL1 = "insert into odontograma value(" + numeroPaciente + ",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
+                        try {
+                            PreparedStatement pst1 = cn.prepareStatement(aSQL1);
+                            int n1 = pst1.executeUpdate();
+                            if (n1 > 0) {
+                                JOptionPane.showMessageDialog(null, "correcto");
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, ex);
+                        }
+
+                        int seleccion = -1;
+                        seleccion = JOptionPane.showOptionDialog(null, "Seleccione opcion", "Datos correctos, seleccione una opción", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Asignarle alguna cita", "Regresar a la lista de pacientes", "Abrir paciente"}, "Asignarle alguna cita");
+                        if (seleccion == 0) {
+                            JOptionPane.showMessageDialog(null, "Asignar una cita ");
+                            Citas abrir = new Citas();
+                            abrir.setLocationRelativeTo(null);
+                            abrir.jLIDDentista.setText(jLIDDentista.getText());
+                            abrir.jLIDPaciente.setText("" + numeroPaciente);
+                            abrir.setVisible(true);
+                            this.setVisible(false);
+                        } else if (seleccion == 1) {
+                            JOptionPane.showMessageDialog(null, "Paciente registrado");
+                            Pacientes registrar = new Pacientes();
+                            registrar.setLocationRelativeTo(null);
+                            registrar.jLIDDentista.setText(jLIDDentista.getText());
+                            try {
+                                Statement s1 = cn.createStatement();
+                                ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1");
+                                ResultSetMetaData rsmd = rs1.getMetaData();
+                                int numeroColumnas = rsmd.getColumnCount();
+                                DefaultTableModel modelo = new DefaultTableModel();
+                                registrar.TablaPacientes.setModel(modelo);
+                                for (int x = 1; x <= numeroColumnas; x++) {
+                                    modelo.addColumn(rsmd.getColumnName(x));
+                                }
+                                while (rs1.next()) {
+                                    Object[] fila = new Object[numeroColumnas];
+                                    for (int y = 0; y < numeroColumnas; y++) {
+                                        fila[y] = (String) rs1.getObject(y + 1).toString();
+                                    }
+                                    modelo.addRow(fila);
+                                }
+                                rs1.close();
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(null, "Problema al conectar");
+                            }
+                            registrar.setVisible(true);
+                            this.setVisible(false);
+                        } else if (seleccion == 2) {
+                            JOptionPane.showMessageDialog(null, "Abrir paciente");
+
+                            boolean i1 = false;
+                            try {
+                                Statement s1 = cn.createStatement();
+                                ResultSet rs1 = s1.executeQuery("SELECT nombres,apellidos,edad,sexo,domicilio,curp FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1 AND idPaciente = '" + numeroPaciente + "'");
+                                while (rs1.next()) {
+                                    String sFichero = "src\\ImagenesPaciente\\" + numeroPaciente + ".jpg";
+                                    File fichero = new File(sFichero);
+                                    ImageIcon icon;
+                                    if (fichero.exists()) {
+                                        icon = new ImageIcon("src\\ImagenesPaciente\\" + numeroPaciente + ".jpg");
+                                    } else {
+                                        icon = new ImageIcon("src\\ImagenesPaciente\\SinImagen.png");
+                                    }
+                                    Image img = icon.getImage();
+                                    Image newimg = img.getScaledInstance(150, 175, java.awt.Image.SCALE_SMOOTH);
+                                    ImageIcon newIcon = new ImageIcon(newimg);
+                                    Paciente verPaciente = new Paciente();
+                                    verPaciente.JLNombre1.setText((String) rs1.getObject(1).toString());
+                                    verPaciente.JLApellidos1.setText((String) rs1.getObject(2).toString());
+                                    verPaciente.JLEdad1.setText((String) rs1.getObject(3).toString());
+                                    verPaciente.JSexo1.setText((String) rs1.getObject(4));
+                                    verPaciente.JLDomicilio1.setText((String) rs1.getObject(5).toString());
+                                    verPaciente.JLCurp1.setText((String) rs1.getObject(6).toString());
+                                    verPaciente.jLimagen.setIcon(newIcon);
+                                    verPaciente.jLimagen.setSize(150, 175);
+                                    verPaciente.setLocationRelativeTo(null);
+                                    verPaciente.jLIDDentista.setText(jLIDDentista.getText());
+                                    verPaciente.jLIDPaciente.setText("" + numeroPaciente);
+                                    verPaciente.setTitle("Información de: " + rs1.getObject(1).toString());
+                                    verPaciente.setVisible(true);
+                                    this.setVisible(false);
+                                    i1 = true;
+                                }
+                                if (i1 == false) {
+                                    JOptionPane.showMessageDialog(null, "El paciente no existe o le corresponde a otro doctor");
+                                }
+                                rs1.close();
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(null, "Problema al conectar");
+                            }
+                        }
+
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo vacio");
         }
-        else{
-            JOptionPane.showMessageDialog(null,"No puedes dejar ningun campo vacio");
-        }
-        
-        
-        
+
+
     }//GEN-LAST:event_BtnRegistrarActionPerformed
 
     private void BtnExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExaminarActionPerformed
         // TODO add your handling code here:
-         // Crear objeto JFileChooser xD
+        // Crear objeto JFileChooser xD
         JFileChooser dlg = new JFileChooser();
         // Del objeto creado llamar al metodo setFileFilter
         dlg.setFileFilter(Filter);
         //Abrimos la ventana de dialogo para escoger la imagen
         int option = dlg.showOpenDialog(this);
         //Si hacemos click derecho en el boton Abrir
-        if(option==JFileChooser.APPROVE_OPTION){
+        if (option == JFileChooser.APPROVE_OPTION) {
             //Obtener el nombre del archivo seleccionado
             String fil = dlg.getSelectedFile().getPath();
             //Obtener la direccion donde se guardara la imagen
             jLFoto.setIcon(new ImageIcon(fil));
             // Modificamos la imagen
-            ImageIcon icon=new ImageIcon(fil);
+            ImageIcon icon = new ImageIcon(fil);
             //Extrae la imagen del icono
-            Image img= icon.getImage();
+            Image img = icon.getImage();
             //Cambiando tamaño de nuestra imagen
             Image newimg = img.getScaledInstance(150, 175, java.awt.Image.SCALE_SMOOTH);
             //Se genera el imageicon con nuestra imagen
             ImageIcon newIcon = new ImageIcon(newimg);
             jLFoto.setIcon(newIcon);
-            jLFoto.setSize(150,175);
-            rutaimagen=fil;
-            String url=rutaimagen;
+            jLFoto.setSize(150, 175);
+            rutaimagen = fil;
+            String url = rutaimagen;
             Image img2 = Toolkit.getDefaultToolkit().createImage(url);
             Image img1 = img2.getScaledInstance(150, 175, Image.SCALE_DEFAULT);
             /*conexion con MYSQL*/
             ConexionMySQL mysql = new ConexionMySQL();
-            Connection cn= mysql.Conectar();
-            numeroPaciente=1;
+            Connection cn = mysql.Conectar();
+            numeroPaciente = 1;
             try {
                 Statement s = cn.createStatement();
-                ResultSet rs = s.executeQuery("SELECT count(*) from paciente");     
-                if(rs.next()) {
-                    numeroPaciente+=Integer.parseInt((String)rs.getObject(1).toString());
-                    JOptionPane.showMessageDialog(null,"Imagen cargada correctamente ");
-                    String to="src\\ImagenesPaciente\\"+numeroPaciente+".jpg";
+                ResultSet rs = s.executeQuery("SELECT count(*) from paciente");
+                if (rs.next()) {
+                    numeroPaciente += Integer.parseInt((String) rs.getObject(1).toString());
+                    JOptionPane.showMessageDialog(null, "Imagen cargada correctamente ");
+                    String to = "src\\ImagenesPaciente\\" + numeroPaciente + ".jpg";
                     PixelGrabber pg = new PixelGrabber(img1, 0, 0, -1, -1, true);
                     try {
                         pg.grabPixels();
-                    } 
-                    catch (InterruptedException ex) {
+                    } catch (InterruptedException ex) {
                         Logger.getLogger(RegistrarPaciente.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     int width = pg.getWidth(), height = pg.getHeight();
@@ -570,21 +561,18 @@ int numeroPaciente=1;
                     WritableRaster raster = Raster.createPackedRaster(buffer, width, height, width, RGB_MASKS, null);
                     BufferedImage bi = new BufferedImage(RGB_OPAQUE, raster, false, null);
                     try {
-                        ImageIO.write(bi,"jpg", new File(to));
-                    } 
-                    catch (IOException ex) {
+                        ImageIO.write(bi, "jpg", new File(to));
+                    } catch (IOException ex) {
                         Logger.getLogger(RegistrarPaciente.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 rs.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Problema al conectar");
             }
-            catch(SQLException e){
-                JOptionPane.showMessageDialog(null,"Problema al conectar");
-            }       
-            rutaimagen="";
-        }
-        else {
-            JOptionPane.showMessageDialog(null,"No has elegido ninguna Opción");
+            rutaimagen = "";
+        } else {
+            JOptionPane.showMessageDialog(null, "No has elegido ninguna Opción");
         }
     }//GEN-LAST:event_BtnExaminarActionPerformed
 

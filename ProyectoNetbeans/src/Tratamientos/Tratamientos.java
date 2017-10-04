@@ -154,8 +154,7 @@ public class Tratamientos extends javax.swing.JFrame {
                         .addGap(76, 76, 76)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(TxtIDTrat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(TxtIDTrat, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,8 +180,7 @@ public class Tratamientos extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(255, 255, 255)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(236, 236, 236))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -256,7 +254,9 @@ public class Tratamientos extends javax.swing.JFrame {
            ConexionMySQL mysql = new ConexionMySQL();
             Connection cn= mysql.Conectar();  
             try {
-                String aSQL="UPDATE tratamientos SET finalizado='1' WHERE idTratamiento='"+TxtIDTrat.getText()+"'";
+                //String aSQL="UPDATE tratamientos SET finalizado='1' WHERE idTratamiento='"+TxtIDTrat.getText()+"'";
+                String aSQL="DELETE FROM tratamientos WHERE idTratamiento='"+TxtIDTrat.getText()+"'";
+                
                 PreparedStatement pst=cn.prepareStatement(aSQL);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "El tratamiento finalizado");

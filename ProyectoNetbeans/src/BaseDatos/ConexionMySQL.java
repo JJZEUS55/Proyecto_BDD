@@ -6,10 +6,10 @@ import javax.swing.JOptionPane;
 
 public class ConexionMySQL 
 {
-public String bd="Dentsoft";
+public String bd="Dentsoft2";
 public String url="jdbc:mysql://localhost/"+bd;
 public String user="root";
-public String pass="orfeo001";
+public String pass="1234";
 
 public Connection Conectar()
 {
