@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 public class ConexionMySQL 
 {
 public String bd="Dentsoft2";
-public String url="jdbc:mysql://localhost/"+bd;
+public String url="jdbc:mysql://10.0.0.9:3306/"+bd;
 public String user="root";
 public String pass="1234";
 
