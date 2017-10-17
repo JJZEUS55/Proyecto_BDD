@@ -12,7 +12,7 @@ public class ConexionMySQL
 //cambia 'hola' por tu usuario de mysql y 'contraseña' tu contraseña de mySQL
 //ese codigo es importante por que este hace la magia de que permitas a otras computadoras que accedan a tu base de datos
 public String bd="Dentsoft2";
-public String url="jdbc:mysql://10.0.0.9:3306/"+bd;
+public String url="jdbc:mysql://localhost:3306/"+bd;
 public String user="root";
 public String pass="1234";
 

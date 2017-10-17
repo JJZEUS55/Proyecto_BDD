@@ -10,6 +10,7 @@ import Inicio.Inicio;
 import Paciente.Paciente;
 import javax.swing.JOptionPane;
 import RegistrarPaciente.RegistrarPaciente;
+import RentarLibro.Rentar;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,25 +27,25 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Tom
  */
 public class Pacientes extends javax.swing.JFrame {
-    
+
     public int numBorrados = 1;
-  
+
     /**
      * Creates new form Pacientes
      */
     public Pacientes() {
         initComponents();
-        TablaPacientes.addMouseListener(new MouseAdapter() 
-   {
-       
-   });
+
+        TablaPacientes.addMouseListener(new MouseAdapter() {
+
+        });
         
+
     }
 
     /**
@@ -191,10 +192,10 @@ public class Pacientes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
         // TODO add your handling code here:
-        Inicio regresar=new Inicio();
+        Inicio regresar = new Inicio();
         regresar.setLocationRelativeTo(null);
         regresar.setVisible(true);
         this.setVisible(false);
@@ -202,97 +203,89 @@ public class Pacientes extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        RegistrarPaciente registrarP=new RegistrarPaciente();
+        RegistrarPaciente registrarP = new RegistrarPaciente();
         registrarP.setLocationRelativeTo(null);
         registrarP.setVisible(true);
         registrarP.jLIDDentista.setText(jLIDDentista.getText());
         this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    public int getBorrados(){
+    public int getBorrados() {
         return numBorrados;
     }
-    
-    
+
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int idPaciente;
-        idPaciente=Integer.parseInt(String.valueOf(TxtIdPaciente.getText()));
-        int codigo=JOptionPane.showConfirmDialog(null, "¿Seguro que quieres Eliminarlo?"+idPaciente+"", "Mensaje de confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-        if (codigo==JOptionPane.YES_OPTION){
-            
-            ConexionMySQL mysql= new ConexionMySQL();
-            Connection cn= mysql.Conectar();
+        idPaciente = Integer.parseInt(String.valueOf(TxtIdPaciente.getText()));
+        int codigo = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres Eliminarlo?" + idPaciente + "", "Mensaje de confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (codigo == JOptionPane.YES_OPTION) {
+
+            ConexionMySQL mysql = new ConexionMySQL();
+            Connection cn = mysql.Conectar();
             try {
                 //PreparedStatement pst=cn.prepareStatement("UPDATE paciente SET mostrar=0 WHERE idPaciente = "+idPaciente+"");  
-                PreparedStatement pst=cn.prepareStatement("DELETE from paciente WHERE idPaciente = "+idPaciente+"");             
-                
-                 int n =pst.executeUpdate();    
-                 numBorrados++;
-                if (n>0)
-                {
-                    JOptionPane.showMessageDialog(null,"Paciente eliminado","Mensaje",JOptionPane.INFORMATION_MESSAGE);  
+                PreparedStatement pst = cn.prepareStatement("DELETE from paciente WHERE idPaciente = " + idPaciente + "");
+
+                int n = pst.executeUpdate();
+                numBorrados++;
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Paciente eliminado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                     try {
                         Statement s = cn.createStatement();
-                        ResultSet rs = s.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1");     
-                        ResultSetMetaData rsmd=rs.getMetaData();        
-                        int numeroColumnas=rsmd.getColumnCount();
-                        DefaultTableModel modelo=new DefaultTableModel();
+                        ResultSet rs = s.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1");
+                        ResultSetMetaData rsmd = rs.getMetaData();
+                        int numeroColumnas = rsmd.getColumnCount();
+                        DefaultTableModel modelo = new DefaultTableModel();
                         this.TablaPacientes.setModel(modelo);
-                        for(int x=1;x<=numeroColumnas;x++){
+                        for (int x = 1; x <= numeroColumnas; x++) {
                             modelo.addColumn(rsmd.getColumnName(x));
-                        }        
-                        while(rs.next()){
-                            Object [] fila=new Object[numeroColumnas];
-                            for(int y=0;y<numeroColumnas;y++){
-                                fila [y] =(String) rs.getObject(y+1).toString();
+                        }
+                        while (rs.next()) {
+                            Object[] fila = new Object[numeroColumnas];
+                            for (int y = 0; y < numeroColumnas; y++) {
+                                fila[y] = (String) rs.getObject(y + 1).toString();
                             }
                             modelo.addRow(fila);
                         }
                         rs.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Problema al conectar");
                     }
-                            catch(SQLException e){
-                                JOptionPane.showMessageDialog(null,"Problema al conectar");
-                            }
-                } 
-                else{
-                    JOptionPane.showMessageDialog(null,"Error al borrar datos");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al borrar datos");
                 }
-            } 
-            catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null,ex);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
-        }
-        else if(codigo==JOptionPane.NO_OPTION){
-            JOptionPane.showMessageDialog(null,"Paciente no eliminado","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+        } else if (codigo == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(null, "Paciente no eliminado", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         ConexionMySQL mysql = new ConexionMySQL();
-        Connection cn= mysql.Conectar();
-        
-        boolean i=false;
+        Connection cn = mysql.Conectar();
+
+        boolean i = false;
         try {
             Statement s1 = cn.createStatement();
-            ResultSet rs1 = s1.executeQuery("SELECT nombres,apellidos,edad,sexo,domicilio,curp FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1 AND idPaciente = '"+TxtIdPaciente.getText()+"'"); 
-            while(rs1.next()){
-                String sFichero = "src\\ImagenesPaciente\\"+TxtIdPaciente.getText()+".jpg";
+            ResultSet rs1 = s1.executeQuery("SELECT nombres,apellidos,edad,sexo,domicilio,curp FROM paciente WHERE dentistaAsignado = '" + jLIDDentista.getText() + "' AND mostrar = 1 AND idPaciente = '" + TxtIdPaciente.getText() + "'");
+            while (rs1.next()) {
+                String sFichero = "src\\ImagenesPaciente\\" + TxtIdPaciente.getText() + ".jpg";
                 File fichero = new File(sFichero);
                 ImageIcon icon;
-                if (fichero.exists())
-                {
-                  icon=new ImageIcon("src\\ImagenesPaciente\\"+TxtIdPaciente.getText()+".jpg");  
+                if (fichero.exists()) {
+                    icon = new ImageIcon("src\\ImagenesPaciente\\" + TxtIdPaciente.getText() + ".jpg");
+                } else {
+                    icon = new ImageIcon("src\\ImagenesPaciente\\SinImagen.png");
                 }
-                else
-                {
-                   icon=new ImageIcon("src\\ImagenesPaciente\\SinImagen.png");  
-                }
-                Image img= icon.getImage();
+                Image img = icon.getImage();
                 Image newimg = img.getScaledInstance(150, 175, java.awt.Image.SCALE_SMOOTH);
                 ImageIcon newIcon = new ImageIcon(newimg);
-                Paciente verPaciente=new Paciente();                
+                Paciente verPaciente = new Paciente();
                 verPaciente.JLNombre1.setText((String) rs1.getObject(1).toString());
                 verPaciente.JLApellidos1.setText((String) rs1.getObject(2).toString());
                 verPaciente.JLEdad1.setText((String) rs1.getObject(3).toString());
@@ -300,73 +293,70 @@ public class Pacientes extends javax.swing.JFrame {
                 verPaciente.JLDomicilio1.setText((String) rs1.getObject(5).toString());
                 verPaciente.JLCurp1.setText((String) rs1.getObject(6).toString());
                 verPaciente.jLimagen.setIcon(newIcon);
-                verPaciente.jLimagen.setSize(150,175);   
+                verPaciente.jLimagen.setSize(150, 175);
                 verPaciente.setLocationRelativeTo(null);
                 verPaciente.jLIDDentista.setText(jLIDDentista.getText());
                 verPaciente.jLIDPaciente.setText(TxtIdPaciente.getText());
-                verPaciente.setTitle("Información de: "+rs1.getObject(1).toString());
+                verPaciente.setTitle("Información de: " + rs1.getObject(1).toString());
                 try {
                     Statement s2 = cn.createStatement();
-                    ResultSet rs2 = s2.executeQuery("SELECT fecha,Descripción FROM citas WHERE idPaciente = '"+TxtIdPaciente.getText()+"' AND actual='1'"); 
-                    while(rs2.next()){
+                    ResultSet rs2 = s2.executeQuery("SELECT fecha,Descripción FROM citas WHERE idPaciente = '" + TxtIdPaciente.getText() + "' AND actual='1'");
+                    while (rs2.next()) {
                         verPaciente.jLFecha.setText((String) rs2.getObject(1).toString());
                         verPaciente.jTMotivo.setText((String) rs2.getObject(2).toString());
                     }
                     rs2.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Problema al conectar");
                 }
-                catch(SQLException e){
-                    JOptionPane.showMessageDialog(null,"Problema al conectar");
-                } 
                 // COSTO 
-                float cantidadPagada=0;
-                float cantidadDebida=0;                
-                DecimalFormat df = new DecimalFormat("0.00"); 
+                float cantidadPagada = 0;
+                float cantidadDebida = 0;
+                DecimalFormat df = new DecimalFormat("0.00");
                 try {
                     Statement s = cn.createStatement();
-                    ResultSet rs = s.executeQuery("SELECT cantidadPagada FROM paciente WHERE idPaciente = '"+TxtIdPaciente.getText()+"'"); 
-                    while(rs.next()){
-                        cantidadPagada=Float.parseFloat((String) rs.getObject(1).toString());
+                    ResultSet rs = s.executeQuery("SELECT cantidadPagada FROM paciente WHERE idPaciente = '" + TxtIdPaciente.getText() + "'");
+                    while (rs.next()) {
+                        cantidadPagada = Float.parseFloat((String) rs.getObject(1).toString());
                     }
                     rs.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Problema al conectar");
                 }
-                catch(SQLException e){
-                    JOptionPane.showMessageDialog(null,"Problema al conectar");
-                }           
                 try {
                     Statement s = cn.createStatement();
-                    ResultSet rs = s.executeQuery("SELECT cantidad FROM costos WHERE idPaciente = '"+TxtIdPaciente.getText()+"'"); 
-                    while(rs.next()){
-                        cantidadDebida+=Float.parseFloat((String) rs.getObject(1).toString());
+                    ResultSet rs = s.executeQuery("SELECT cantidad FROM costos WHERE idPaciente = '" + TxtIdPaciente.getText() + "'");
+                    while (rs.next()) {
+                        cantidadDebida += Float.parseFloat((String) rs.getObject(1).toString());
                     }
                     rs.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Problema al conectar");
                 }
-                catch(SQLException e){
-                    JOptionPane.showMessageDialog(null,"Problema al conectar");
-                }    
-                verPaciente.jLCantidad.setText("$"+df.format(cantidadDebida-cantidadPagada));
+                verPaciente.jLCantidad.setText("$" + df.format(cantidadDebida - cantidadPagada));
                 //Aqui acaba costo
                 verPaciente.setVisible(true);
                 this.setVisible(false);
-                i=true;
+                i = true;
             }
-            if(i==false){
-                JOptionPane.showMessageDialog(null,"El paciente no existe o le corresponde a otro doctor");
+            if (i == false) {
+                JOptionPane.showMessageDialog(null, "El paciente no existe o le corresponde a otro doctor");
             }
             rs1.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Problema al conectar");
         }
-            catch(SQLException e){
-		JOptionPane.showMessageDialog(null,"Problema al conectar");
-            } 
-         
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void TablaPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaPacientesMouseClicked
         // TODO add your handling code here:
-        DefaultTableModel modelo = (DefaultTableModel)TablaPacientes.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) TablaPacientes.getModel();
         int fila = TablaPacientes.rowAtPoint(evt.getPoint());
-         int columna = 0;
-         if ((fila > -1) && (columna > -1))
-            TxtIdPaciente.setText((String) modelo.getValueAt(fila,columna));
+        int columna = 0;
+        if ((fila > -1) && (columna > -1)) {
+            TxtIdPaciente.setText((String) modelo.getValueAt(fila, columna));
+        }
     }//GEN-LAST:event_TablaPacientesMouseClicked
 
     /**
@@ -400,6 +390,7 @@ public class Pacientes extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Pacientes().setVisible(true);
+                
             }
         });
     }

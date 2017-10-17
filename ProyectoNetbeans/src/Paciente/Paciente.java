@@ -10,6 +10,7 @@ import Citas.Citas;
 import Imagenes.Imagenes;
 import Odontograma.Odontograma;
 import Pacientes.Pacientes;
+import RentarLibro.Rentar;
 import Tratamientos.Tratamientos;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -688,7 +689,7 @@ public class Paciente extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            public void run() {                
                 new Paciente().setVisible(true);
             }
         });

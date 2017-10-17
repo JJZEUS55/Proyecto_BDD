@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package Inicio;
+
 import BaseDatos.ConexionMySQL;
 import RegistrarDoctor.RegistarDoctor;
 import Pacientes.Pacientes;
+import RentarLibro.Rentar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -146,75 +148,79 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    ConexionMySQL mysql = new ConexionMySQL();
-    Connection cn= mysql.Conectar();
-    String usuario = jLUsuario.getText();
-    String pass = jLPass.getText();
-        
-    if (usuario.length() != 0 && pass.length() != 0){
-        try {
-            /*Desde aqui le modifico*/
-            Statement s = cn.createStatement();
-            ResultSet rs = s.executeQuery("SELECT idDentista,nombres FROM dentista WHERE user = '" + usuario + "' AND password = '" + pass + "'");
-            int a=0;
-            while(rs.next()){
-                a=1;
-                Pacientes abrir=new Pacientes();
-                abrir.setLocationRelativeTo(null);
-                abrir.jLIDDentista.setText((String) rs.getObject(1).toString());
-                JOptionPane.showMessageDialog(null,"Usuario y contraseña correctos, iniciarás sesión.\nBienvenido "+(String) rs.getObject(2).toString()+"\n");            
-                try {
-                    Statement s1 = cn.createStatement();
-                    ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + (String) rs.getObject(1).toString() + "' AND mostrar = 1");     
-                    ResultSetMetaData rsmd=rs1.getMetaData();        
-                    int numeroColumnas=rsmd.getColumnCount();
-                    DefaultTableModel modelo=new DefaultTableModel();
-                    abrir.TablaPacientes.setModel(modelo);
-                    for(int x=1;x<=numeroColumnas;x++){
-                        modelo.addColumn(rsmd.getColumnName(x));
-                    }        
-                    while(rs1.next()){
-                     Object [] fila=new Object[numeroColumnas];
-                     for(int y=0;y<numeroColumnas;y++){
-                        fila [y] =(String) rs1.getObject(y+1).toString();
+        ConexionMySQL mysql = new ConexionMySQL();
+        Connection cn = mysql.Conectar();
+        String usuario = jLUsuario.getText();
+        String pass = jLPass.getText();
+
+        if (usuario.length() != 0 && pass.length() != 0) {
+            try {
+                /*Desde aqui le modifico*/
+                Statement s = cn.createStatement();
+                ResultSet rs = s.executeQuery("SELECT idDentista,nombres FROM dentista WHERE user = '" + usuario + "' AND password = '" + pass + "'");
+                int a = 0;
+                while (rs.next()) {
+                    a = 1;
+                    Pacientes abrir = new Pacientes();
+                    //Rentar publicidad = new Rentar();
+                    abrir.setLocationRelativeTo(null);
+                    abrir.jLIDDentista.setText((String) rs.getObject(1).toString());
+                    JOptionPane.showMessageDialog(null, "Usuario y contraseña correctos, iniciarás sesión.\nBienvenido " + (String) rs.getObject(2).toString() + "\n");
+                    try {
+                        Statement s1 = cn.createStatement();
+                        ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + (String) rs.getObject(1).toString() + "' AND mostrar = 1");
+                        ResultSetMetaData rsmd = rs1.getMetaData();
+                        int numeroColumnas = rsmd.getColumnCount();
+                        DefaultTableModel modelo = new DefaultTableModel();
+                        abrir.TablaPacientes.setModel(modelo);
+                        for (int x = 1; x <= numeroColumnas; x++) {
+                            modelo.addColumn(rsmd.getColumnName(x));
+                        }
+                        while (rs1.next()) {
+                            Object[] fila = new Object[numeroColumnas];
+                            for (int y = 0; y < numeroColumnas; y++) {
+                                fila[y] = (String) rs1.getObject(y + 1).toString();
+                            }
+                            modelo.addRow(fila);
+                        }
+                        rs1.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Problema al conectar");
                     }
-                     modelo.addRow(fila);
+                    abrir.setVisible(true);
+                    //publicidad.setVisible(true);
+                    System.out.println("SI LLEGUE");
+                    int resultado = JOptionPane.showConfirmDialog(null, "¿Le gustaria recibir poder recibir libros de odontologia?", "PUBLICIDAD", JOptionPane.YES_NO_OPTION);
+                    if (resultado == JOptionPane.YES_OPTION) {
+                        Rentar publicidad = new Rentar();
+                        publicidad.setVisible(true);
                     }
-                     rs1.close();
+                    this.setVisible(false);
                 }
-                catch(SQLException e){
-                    JOptionPane.showMessageDialog(null,"Problema al conectar");
+                if (a == 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario incorrecto");
                 }
-                abrir.setVisible(true);
-                this.setVisible(false);           
+                rs.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Problema al conectar");
             }
-            if (a==0)
-            {
-                   JOptionPane.showMessageDialog(null,"Usuario incorrecto");            
-            }
-            rs.close();
-            }
-            catch(SQLException e){
-		JOptionPane.showMessageDialog(null,"Problema al conectar");
-            }		
-	}
-        else {
-            JOptionPane.showMessageDialog(null,"No puedes dejar espacios en blanco");
+        } else {
+            JOptionPane.showMessageDialog(null, "No puedes dejar espacios en blanco");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SalirMouseClicked
         // TODO add your handling code here:
-    JOptionPane.showMessageDialog(null,  "Has elegido salir","Mensaje",JOptionPane.INFORMATION_MESSAGE);  
-    System.exit(1); 
+        JOptionPane.showMessageDialog(null, "Has elegido salir", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(1);
     }//GEN-LAST:event_SalirMouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
-     RegistrarDoctor.RegistarDoctor registrar= new RegistrarDoctor.RegistarDoctor(); 
-     registrar.setLocationRelativeTo(null);
-     registrar.setVisible(true);
-     this.setVisible(false);
+        RegistrarDoctor.RegistarDoctor registrar = new RegistrarDoctor.RegistarDoctor();
+        registrar.setLocationRelativeTo(null);
+        registrar.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLUsuarioActionPerformed
