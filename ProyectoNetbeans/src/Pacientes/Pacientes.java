@@ -47,6 +47,11 @@ public class Pacientes extends javax.swing.JFrame {
         
 
     }
+    
+    public int getIDDentista(){
+        
+        return Integer.parseInt(jLIDDentista.getText());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -6,9 +6,13 @@
 package Inicio;
 
 import BaseDatos.ConexionMySQL;
+import Dentista.Dentista;
 import RegistrarDoctor.RegistarDoctor;
 import Pacientes.Pacientes;
 import RentarLibro.Rentar;
+import com.sun.net.httpserver.HttpsServer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +22,9 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import org.omg.CORBA.Context;
 
 /**
  *
@@ -33,6 +39,7 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Menú de inicio");
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -152,6 +159,8 @@ public class Inicio extends javax.swing.JFrame {
         Connection cn = mysql.Conectar();
         String usuario = jLUsuario.getText();
         String pass = jLPass.getText();
+       
+        
 
         if (usuario.length() != 0 && pass.length() != 0) {
             try {
@@ -161,7 +170,7 @@ public class Inicio extends javax.swing.JFrame {
                 int a = 0;
                 while (rs.next()) {
                     a = 1;
-                    Pacientes abrir = new Pacientes();
+                    final Pacientes abrir = new Pacientes();
                     //Rentar publicidad = new Rentar();
                     abrir.setLocationRelativeTo(null);
                     abrir.jLIDDentista.setText((String) rs.getObject(1).toString());
@@ -189,13 +198,22 @@ public class Inicio extends javax.swing.JFrame {
                     }
                     abrir.setVisible(true);
                     //publicidad.setVisible(true);
-                    System.out.println("SI LLEGUE");
-                    int resultado = JOptionPane.showConfirmDialog(null, "¿Le gustaria recibir poder recibir libros de odontologia?", "PUBLICIDAD", JOptionPane.YES_NO_OPTION);
-                    if (resultado == JOptionPane.YES_OPTION) {
-                        Rentar publicidad = new Rentar();
-                        publicidad.setVisible(true);
-                    }
+                    //System.out.println("SI LLEGUE");
+                    Timer tiempo = new Timer(5000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent ae) {
+                            int resultado = JOptionPane.showConfirmDialog(null, "¿Le gustaria recibir poder recibir libros de odontologia?", "PUBLICIDAD", JOptionPane.YES_NO_OPTION);
+                            if (resultado == JOptionPane.YES_OPTION) {
+                                Rentar publicidad = new Rentar();
+                                publicidad.jlabelIdDent.setText(abrir.jLIDDentista.getText());   
+                                publicidad.jlabelIdDent.setVisible(false);
+                                publicidad.setVisible(true);
+                            }
+                        }
+                    });
+                    tiempo.setRepeats(false);                    
                     this.setVisible(false);
+                    tiempo.start();
                 }
                 if (a == 0) {
                     JOptionPane.showMessageDialog(null, "Usuario incorrecto");
