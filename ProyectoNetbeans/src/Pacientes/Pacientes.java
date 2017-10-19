@@ -5,6 +5,7 @@
  */
 package Pacientes;
 
+import BD.Conexion;
 import BaseDatos.ConexionMySQL;
 import Inicio.Inicio;
 import Paciente.Paciente;
@@ -45,12 +46,11 @@ public class Pacientes extends javax.swing.JFrame {
         TablaPacientes.addMouseListener(new MouseAdapter() {
 
         });
-        
 
     }
-    
-    public int getIDDentista(){
-        
+
+    public int getIDDentista() {
+
         return Integer.parseInt(jLIDDentista.getText());
     }
 
@@ -232,6 +232,8 @@ public class Pacientes extends javax.swing.JFrame {
     }
 
 
+
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int idPaciente;
@@ -378,11 +380,11 @@ public class Pacientes extends javax.swing.JFrame {
 
     private void jbtnVerLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVerLibrosActionPerformed
         // TODO add your handling code here:
-        VerLibrosDentista verlibros = new VerLibrosDentista();       
-        
+        VerLibrosDentista verlibros = new VerLibrosDentista();
+
         verlibros.jIdDentista.setText(jLIDDentista.getText().toString());
         verlibros.jIdDentista.setVisible(false);
-        verlibros.setVisible(true);   
+        verlibros.setVisible(true);
     }//GEN-LAST:event_jbtnVerLibrosActionPerformed
 
     /**
@@ -416,7 +418,7 @@ public class Pacientes extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Pacientes().setVisible(true);
-                
+
             }
         });
     }
