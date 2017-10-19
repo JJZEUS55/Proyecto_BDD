@@ -278,9 +278,7 @@ public class Rentar extends javax.swing.JFrame {
         //creamos conexion a base de datos
         Conexion conexion = new Conexion();
         Connection con = conexion.getConexion();
-        //TE QUE DASTE EN HACER EL REGISTRO A BASE DE DATOS DE BIBLIOTECA
-        
-
+        //TE QUE DASTE EN HACER EL REGISTRO A BASE DE DATOS DE BIBLIOTECA   
         try {
             jtfNombre.setText(dentista.getNombre());
             jtfApellidoPa.setText(dentista.getApellidoPat());
@@ -296,8 +294,10 @@ public class Rentar extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_SalirActionPerformed
 
+    //Registrar Bibliotecario
     private void btnRegistroBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroBibliotecaActionPerformed
         Alta nuevoUsuario = new Alta();
+        VerLibrosDentista verlibros = new VerLibrosDentista();
         String usuario = null;
         String password = null;
         String nombre = null;
@@ -315,7 +315,11 @@ public class Rentar extends javax.swing.JFrame {
         numInt = Integer.parseInt(jtfNumInt.getText().toString());
         numExt = Integer.parseInt(jtfNumExt.getText().toString());
                
-        nuevoUsuario.usuario(usuario, password, nombre, apellidoPaterno, apellidoMaterno, calle, numInt, numExt);
+        nuevoUsuario.bibliotecario(usuario, password, nombre, apellidoPaterno, apellidoMaterno, calle, numInt, numExt);
+        this.setVisible(false);
+        verlibros.jIdDentista.setText(jlabelIdDent.getText().toString());
+        verlibros.jIdDentista.setVisible(false);
+        verlibros.setVisible(true);          
     }//GEN-LAST:event_btnRegistroBibliotecaActionPerformed
 
     /**

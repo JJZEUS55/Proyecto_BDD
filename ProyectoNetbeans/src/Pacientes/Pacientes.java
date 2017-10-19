@@ -11,6 +11,7 @@ import Paciente.Paciente;
 import javax.swing.JOptionPane;
 import RegistrarPaciente.RegistrarPaciente;
 import RentarLibro.Rentar;
+import RentarLibro.VerLibrosDentista;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -73,6 +74,7 @@ public class Pacientes extends javax.swing.JFrame {
         jLIDDentista = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaPacientes = new javax.swing.JTable();
+        jbtnVerLibros = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,6 +135,13 @@ public class Pacientes extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(TablaPacientes);
 
+        jbtnVerLibros.setText("Ver Libros");
+        jbtnVerLibros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnVerLibrosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,6 +171,7 @@ public class Pacientes extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TxtIdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jbtnVerLibros, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(48, 48, 48))
@@ -175,20 +185,22 @@ public class Pacientes extends javax.swing.JFrame {
                     .addComponent(jLIDDentista))
                 .addGap(4, 4, 4)
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(TxtIdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(49, 49, 49)
+                        .addComponent(jbtnVerLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Regresar)
                     .addComponent(jButton3))
@@ -364,6 +376,15 @@ public class Pacientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TablaPacientesMouseClicked
 
+    private void jbtnVerLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVerLibrosActionPerformed
+        // TODO add your handling code here:
+        VerLibrosDentista verlibros = new VerLibrosDentista();       
+        
+        verlibros.jIdDentista.setText(jLIDDentista.getText().toString());
+        verlibros.jIdDentista.setVisible(false);
+        verlibros.setVisible(true);   
+    }//GEN-LAST:event_jbtnVerLibrosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -412,5 +433,6 @@ public class Pacientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     public javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JButton jbtnVerLibros;
     // End of variables declaration//GEN-END:variables
 }

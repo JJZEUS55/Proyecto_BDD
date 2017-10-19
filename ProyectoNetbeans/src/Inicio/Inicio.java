@@ -10,6 +10,7 @@ import Dentista.Dentista;
 import RegistrarDoctor.RegistarDoctor;
 import Pacientes.Pacientes;
 import RentarLibro.Rentar;
+import RentarLibro.validaciones.ValidacionesIngreso;
 import com.sun.net.httpserver.HttpsServer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +40,6 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Menú de inicio");
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,8 +159,6 @@ public class Inicio extends javax.swing.JFrame {
         Connection cn = mysql.Conectar();
         String usuario = jLUsuario.getText();
         String pass = jLPass.getText();
-       
-        
 
         if (usuario.length() != 0 && pass.length() != 0) {
             try {
@@ -170,12 +168,15 @@ public class Inicio extends javax.swing.JFrame {
                 int a = 0;
                 while (rs.next()) {
                     a = 1;
+                    ValidacionesIngreso validacionPublicidad = new ValidacionesIngreso();
+                    boolean publicidad1;
                     final Pacientes abrir = new Pacientes();
                     //Rentar publicidad = new Rentar();
                     abrir.setLocationRelativeTo(null);
                     abrir.jLIDDentista.setText((String) rs.getObject(1).toString());
                     JOptionPane.showMessageDialog(null, "Usuario y contraseña correctos, iniciarás sesión.\nBienvenido " + (String) rs.getObject(2).toString() + "\n");
                     try {
+
                         Statement s1 = cn.createStatement();
                         ResultSet rs1 = s1.executeQuery("SELECT idPaciente,nombres FROM paciente WHERE dentistaAsignado = '" + (String) rs.getObject(1).toString() + "' AND mostrar = 1");
                         ResultSetMetaData rsmd = rs1.getMetaData();
@@ -196,24 +197,30 @@ public class Inicio extends javax.swing.JFrame {
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Problema al conectar");
                     }
+                    this.setVisible(false);
                     abrir.setVisible(true);
                     //publicidad.setVisible(true);
                     //System.out.println("SI LLEGUE");
-                    Timer tiempo = new Timer(5000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent ae) {
-                            int resultado = JOptionPane.showConfirmDialog(null, "¿Le gustaria recibir poder recibir libros de odontologia?", "PUBLICIDAD", JOptionPane.YES_NO_OPTION);
-                            if (resultado == JOptionPane.YES_OPTION) {
-                                Rentar publicidad = new Rentar();
-                                publicidad.jlabelIdDent.setText(abrir.jLIDDentista.getText());   
-                                publicidad.jlabelIdDent.setVisible(false);
-                                publicidad.setVisible(true);
+                    publicidad1 = validacionPublicidad.saltarPublicidad(usuario);
+                    
+                    if (publicidad1 == true) {
+                        abrir.jbtnVerLibros.setVisible(false);
+                        Timer tiempo = new Timer(2000, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent ae) {
+                                int resultado = JOptionPane.showConfirmDialog(null, "¿Le gustaria recibir poder recibir libros de odontologia?", "PUBLICIDAD", JOptionPane.YES_NO_OPTION);
+                                if (resultado == JOptionPane.YES_OPTION) {
+                                    Rentar publicidad = new Rentar();
+                                    publicidad.jlabelIdDent.setText(abrir.jLIDDentista.getText());
+                                    publicidad.jlabelIdDent.setVisible(false);
+                                    publicidad.setVisible(true);
+                                    
+                                }
                             }
-                        }
-                    });
-                    tiempo.setRepeats(false);                    
-                    this.setVisible(false);
-                    tiempo.start();
+                        });
+                        tiempo.setRepeats(false);                        
+                        tiempo.start();
+                    }
                 }
                 if (a == 0) {
                     JOptionPane.showMessageDialog(null, "Usuario incorrecto");

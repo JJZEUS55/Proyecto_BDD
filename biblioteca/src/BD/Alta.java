@@ -142,6 +142,30 @@ public class Alta {
         return correcto;
     }
     
+    public boolean bibliotecario(String usuario, String password, String nombre, String apellidoPaterno, String apellidoMaterno, String calle, int numInterior, int numExterior){
+        conexion = new Conexion();
+        Connection con = conexion.getConexion();
+        
+        try{
+            SQL = "INSERT INTO bibliotecario VALUES(null,'"+usuario+"','"+password+"','"+nombre+"','"
+                    +apellidoPaterno+"','"+apellidoMaterno+"','"+calle+"','"+numExterior+"','"+numInterior+"','"+0+"','"
+                    +"L"+"','"+5+"')";
+            
+            System.out.println(SQL);
+            st = con.createStatement();
+            st.executeUpdate(SQL);
+            
+            correcto = true;
+            JOptionPane.showMessageDialog(null, "Exito al Registrar", "", JOptionPane.PLAIN_MESSAGE);
+            con.close();
+        }
+        catch(SQLException ex){
+            correcto = false;
+            JOptionPane.showMessageDialog(null, "Error al Insertar los Datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return correcto;
+    }
+    
     public boolean ejemplar(Libro libro,Ejemplar ejemplar, BibliotecaM biblioteca){
         conexion = new Conexion();
         Connection con = conexion.getConexion();
