@@ -380,10 +380,8 @@ public class Pacientes extends javax.swing.JFrame {
 
     private void jbtnVerLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVerLibrosActionPerformed
         // TODO add your handling code here:
-        VerLibrosDentista verlibros = new VerLibrosDentista();
-
-        verlibros.jIdDentista.setText(jLIDDentista.getText().toString());
-        verlibros.jIdDentista.setVisible(false);
+        String id = jLIDDentista.getText().toString();
+        VerLibrosDentista verlibros = new VerLibrosDentista(id);
         verlibros.setVisible(true);
     }//GEN-LAST:event_jbtnVerLibrosActionPerformed
 

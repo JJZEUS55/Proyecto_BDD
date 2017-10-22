@@ -1,58 +1,8 @@
-create database biblio;
-use biblio;
-
-show tables;
-
-select * from ejemplar;
-
-select * from biblioteca;
-insert into biblioteca values(5, "UAM", "Xochimilco", 5);
-
-select * from bibliotecario;
-delete from bibliotecario where idbibliotecario=8;
-
-SELECT correo FROM bibliotecario WHERE correo like "re2ds";
-
-select * from usuario;
-
-
-select * from libro;
-desc libro;
-
-insert into libro values(10, "Odontologia Clinica", 780, 2, 2008, 5, 19);
-insert into libro values(11, "Odontologia preventiva y comunitaria", 620, 3, 2013, 5, 19);
-insert into libro values(12, "Operatoria Dental", 820, 2, 2016, 5, 19);
-insert into libro values(13, "Ortodoncia Diagnostico y Planificacion", 912, 2, 2012, 5, 19);
-insert into libro values(14, "Odontologia Pediatrica", 540, 2, 2005, 5, 19);
-
-insert into ejemplar values(50000010, 10, "Nuevo", "Disponible", 5);
-insert into ejemplar values(50000011, 11,"Nuevo", "Disponible", 5);
-insert into ejemplar values(50000012, 12, "Nuevo", "Disponible", 5);
-insert into ejemplar values(50000013, 13, "Nuevo", "Disponible", 5);
-insert into ejemplar values(50000014, 14, "Nuevo", "Disponible", 5);
-
-insert into genero values(19, "Odontologia");
-
-select * from usuario;
-
-delete  from usuario where idusuario like "0000000005"; 
-
-SET SQL_SAFE_UPDATES = 0;
-
-desc usuario;
-
-use dentsoft2;
-
-SELECT idDentista, user, nombres, apellidos FROM dentista WHERE idDentista=1;
-
-show tables;
-select * from dentista;
-
--- MySQL dump 10.13  Distrib 5.7.19, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: biblioteca
+-- Host: localhost    Database: biblio
 -- ------------------------------------------------------
--- Server version	5.7.19-0ubuntu0.16.04.1
+-- Server version	5.7.19-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -132,7 +82,7 @@ CREATE TABLE `biblioteca` (
   `calle` varchar(45) NOT NULL,
   `exterior` int(11) NOT NULL,
   PRIMARY KEY (`idbiblioteca`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +91,7 @@ CREATE TABLE `biblioteca` (
 
 LOCK TABLES `biblioteca` WRITE;
 /*!40000 ALTER TABLE `biblioteca` DISABLE KEYS */;
-INSERT INTO `biblioteca` VALUES (1,'IPN','AV.POLITECNICO',50),(3,'UNAM','COPILCO',10);
+INSERT INTO `biblioteca` VALUES (1,'IPN','AV.POLITECNICO',50),(3,'UNAM','COPILCO',10),(5,'UAM','Xochimilco',5),(6,'Nada','0',0);
 /*!40000 ALTER TABLE `biblioteca` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +118,7 @@ CREATE TABLE `bibliotecario` (
   PRIMARY KEY (`idbibliotecario`,`idbiblioteca`,`correo`),
   KEY `fk_bibliotecario_biblioteca1_idx` (`idbiblioteca`),
   CONSTRAINT `fk_bibliotecario_biblioteca1` FOREIGN KEY (`idbiblioteca`) REFERENCES `biblioteca` (`idbiblioteca`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +127,7 @@ CREATE TABLE `bibliotecario` (
 
 LOCK TABLES `bibliotecario` WRITE;
 /*!40000 ALTER TABLE `bibliotecario` DISABLE KEYS */;
-INSERT INTO `bibliotecario` VALUES (5,'manuel','caos','Manuel','Arreola','Sandoval','MOlina',50,2,900.00,'L',3),(6,'isra','isra','israel','martinez','mm','d',5,5,800.00,'A',1),(7,'hamlet','hamlet','hamlet','csm','mmh','5d',12,12,1000.00,'a',1);
+INSERT INTO `bibliotecario` VALUES (5,'manuel','caos','Manuel','Arreola','Sandoval','MOlina',50,2,900.00,'L',3),(6,'isra','isra','israel','martinez','mm','d',5,5,800.00,'A',1),(7,'hamlet','hamlet','hamlet','csm','mmh','5d',12,12,1000.00,'a',1),(9,'re2ds','1234','Mario Tomás','Islas','Castro','null',20,21,0.00,'L',5),(11,'Nada','Nada','Nada','Nada','Nada','0',0,0,0.00,'A',6),(14,'Martha','12345','Martha','cordero','aaa','null',12,11,0.00,'L',5);
 /*!40000 ALTER TABLE `bibliotecario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +173,7 @@ CREATE TABLE `ejemplar` (
   KEY `fk_ejemplar_biblioteca1_idx` (`idbiblioteca`),
   CONSTRAINT `fk_ejemplar_biblioteca1` FOREIGN KEY (`idbiblioteca`) REFERENCES `biblioteca` (`idbiblioteca`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_ejemplar_libro1` FOREIGN KEY (`libro`) REFERENCES `libro` (`idlibro`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50000015 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +182,7 @@ CREATE TABLE `ejemplar` (
 
 LOCK TABLES `ejemplar` WRITE;
 /*!40000 ALTER TABLE `ejemplar` DISABLE KEYS */;
-INSERT INTO `ejemplar` VALUES (00000009,3,'Nuevo','Ocupado',3),(00000010,2,'NUEVO','DISPONIBLE',1);
+INSERT INTO `ejemplar` VALUES (00000009,3,'Nuevo','Ocupado',3),(00000010,2,'NUEVO','DISPONIBLE',1),(50000010,10,'Nuevo','Disponible',5),(50000011,11,'Nuevo','Disponible',5),(50000012,12,'Nuevo','Disponible',5),(50000013,13,'Nuevo','Disponible',5),(50000014,14,'Nuevo','Disponible',5);
 /*!40000 ALTER TABLE `ejemplar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,7 +197,7 @@ CREATE TABLE `genero` (
   `idgenero` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idgenero`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +206,7 @@ CREATE TABLE `genero` (
 
 LOCK TABLES `genero` WRITE;
 /*!40000 ALTER TABLE `genero` DISABLE KEYS */;
-INSERT INTO `genero` VALUES (2,'THRILLER'),(3,'PSICOSIS'),(4,'EPICA O NARRATIVO'),(5,'DRAMA'),(6,'FICCION'),(7,'INFANTIL'),(8,'AUTOAYUDA'),(9,'HOGAR'),(10,'EROTICA'),(11,'ENCICLOPEDIA'),(12,'POLITICA'),(13,'ECONOMIA'),(14,'SOCIEDAD'),(15,'DEPORTES'),(16,'VIAJES'),(17,'BIOGRAFIAS'),(18,'NOVELA');
+INSERT INTO `genero` VALUES (2,'THRILLER'),(3,'PSICOSIS'),(4,'EPICA O NARRATIVO'),(5,'DRAMA'),(6,'FICCION'),(7,'INFANTIL'),(8,'AUTOAYUDA'),(9,'HOGAR'),(10,'EROTICA'),(11,'ENCICLOPEDIA'),(12,'POLITICA'),(13,'ECONOMIA'),(14,'SOCIEDAD'),(15,'DEPORTES'),(16,'VIAJES'),(17,'BIOGRAFIAS'),(18,'NOVELA'),(19,'Odontologia');
 /*!40000 ALTER TABLE `genero` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,12 +225,15 @@ CREATE TABLE `libro` (
   `año` int(11) DEFAULT NULL,
   `editorial` int(10) unsigned NOT NULL,
   `genero` int(10) unsigned NOT NULL,
+  `idbibliotecario` int(10) unsigned NOT NULL DEFAULT '11',
   PRIMARY KEY (`idlibro`),
   KEY `fk_libro_editorial1_idx` (`editorial`),
   KEY `fk_libro_genero1_idx` (`genero`),
+  KEY `idbibliotecario` (`idbibliotecario`),
   CONSTRAINT `fk_libro_editorial1` FOREIGN KEY (`editorial`) REFERENCES `editorial` (`ideditorial`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_libro_genero1` FOREIGN KEY (`genero`) REFERENCES `genero` (`idgenero`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_libro_genero1` FOREIGN KEY (`genero`) REFERENCES `genero` (`idgenero`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `libro_ibfk_1` FOREIGN KEY (`idbibliotecario`) REFERENCES `bibliotecario` (`idbibliotecario`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,7 +242,7 @@ CREATE TABLE `libro` (
 
 LOCK TABLES `libro` WRITE;
 /*!40000 ALTER TABLE `libro` DISABLE KEYS */;
-INSERT INTO `libro` VALUES (2,'EL PSICOANALISTA',450,1,2010,2,2),(3,'HP',700,10,2010,2,3),(5,'LA TREGUA',216,6,2006,4,18),(6,'CIEN ANOS DE SOLEDAD',512,4,1987,5,4),(7,'GRACIAS POR EL FUEGO',288,2002,202,6,18),(8,'PRIMAVERA CON UNA ESQUINA ROTA',252,5,2007,7,18),(9,'Prueba',20,2,2017,3,2);
+INSERT INTO `libro` VALUES (2,'EL PSICOANALISTA',450,1,2010,2,2,11),(3,'HP',700,10,2010,2,3,11),(5,'LA TREGUA',216,6,2006,4,18,11),(6,'CIEN ANOS DE SOLEDAD',512,4,1987,5,4,11),(7,'GRACIAS POR EL FUEGO',288,2002,202,6,18,14),(8,'PRIMAVERA CON UNA ESQUINA ROTA',252,5,2007,7,18,9),(9,'Prueba',20,2,2017,3,2,11),(10,'Odontologia Clinica',780,2,2008,5,19,11),(11,'Odontologia preventiva y comunitaria',620,3,2013,5,19,9),(12,'Operatoria Dental',820,2,2016,5,19,11),(13,'Ortodoncia Diagnostico y Planificacion',912,2,2012,5,19,9),(14,'Odontologia Pediatrica',540,2,2005,5,19,11);
 /*!40000 ALTER TABLE `libro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -420,4 +373,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03 23:39:31
+-- Dump completed on 2017-10-22 18:50:10

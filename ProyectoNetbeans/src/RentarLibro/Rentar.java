@@ -296,8 +296,9 @@ public class Rentar extends javax.swing.JFrame {
 
     //Registrar Bibliotecario
     private void btnRegistroBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroBibliotecaActionPerformed
+        String id = jlabelIdDent.getText().toString();
         Alta nuevoUsuario = new Alta();
-        VerLibrosDentista verlibros = new VerLibrosDentista();
+        VerLibrosDentista verlibros = new VerLibrosDentista(id);
         String usuario = null;
         String password = null;
         String nombre = null;
@@ -317,8 +318,8 @@ public class Rentar extends javax.swing.JFrame {
                
         nuevoUsuario.bibliotecario(usuario, password, nombre, apellidoPaterno, apellidoMaterno, calle, numInt, numExt);
         this.setVisible(false);
-        verlibros.jIdDentista.setText(jlabelIdDent.getText().toString());
-        verlibros.jIdDentista.setVisible(false);
+        verlibros.jIdDent.setText(jlabelIdDent.getText().toString());
+        verlibros.jIdDent.setVisible(false);
         verlibros.setVisible(true);          
     }//GEN-LAST:event_btnRegistroBibliotecaActionPerformed
 
