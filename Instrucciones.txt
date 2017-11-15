@@ -1,0 +1,16 @@
+intrucciones 
+BORRAR CACHE DE NETBEANS NECESARIO POR QUE SALE ERROR AL ENCONTRAR PACKAGE
+del /s /q %USERPROFILE%\AppData\Local\NetBeans\Cache\
+DESPUES DE BORRARLO REINICIAR NETBEANS
+
+A LA BASE DE DATOS
+SET SQL_SAFE_UPDATES = 0;
+NECESARIO PARA PORDER HACER LOS UPDATES CORRESPONDIENTES
+
+USAR UNO DE ESTOS 2 PARA PODER PERMITIR EL ACCESO A TU BASE DE DATOS Y PUEDAN HACER CONSULTAS Y MODIFICAR DATOS
+ESPECIFICA COMPUTADORA
+grant all on db.* to 'user'@'hostname' identified by 'password';
+TODAS 
+grant all on db.* to 'user'@'%' identified by 'password';
+SOLO EL LOCALHOST
+grant all on db.* to 'user'@'localhost' identified by 'password';
