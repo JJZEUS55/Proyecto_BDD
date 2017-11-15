@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
     
-    private static String servidor="jdbc:mysql://localhost/biblio";
+    private static String servidor="jdbc:mysql://10.0.0.9:3306/biblio1";
     private static String user="root"; //Ubuntu es caos caos
     private static String psw="1234";
     private static String driver="com.mysql.jdbc.Driver";
