@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class FragmentacionHorizontal extends javax.swing.JFrame {
 
     private ArrayList<PredicadosSimple> predicados = new ArrayList<PredicadosSimple>();
+    Miniterminos minitermino = new Miniterminos();
     //PredicadosSimple[] predicados = new PredicadosSimple[10];
     private static int contador = 0;
     String predicadosTotales;
@@ -72,10 +73,13 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtaPredicados = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        jbtnFragmentos = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtaMiniterminos = new javax.swing.JTextArea();
+        jComboSitio = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jbtnEnviar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -226,7 +230,7 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
                     .addComponent(jComboValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addComponent(jbtnAgregarPredicado, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Generar Fragmentos Miniterminos"));
@@ -237,7 +241,12 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
         jtaPredicados.setRows(5);
         jScrollPane2.setViewportView(jtaPredicados);
 
-        jButton1.setText("Generar Fragmentos Miniterminos");
+        jbtnFragmentos.setText("Generar Fragmentos Miniterminos");
+        jbtnFragmentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnFragmentosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -254,8 +263,8 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGap(203, 203, 203))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(201, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnFragmentos)
                 .addGap(180, 180, 180))
         );
         jPanel5Layout.setVerticalGroup(
@@ -266,7 +275,7 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                .addComponent(jbtnFragmentos, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
 
@@ -276,6 +285,17 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
         jtaMiniterminos.setRows(5);
         jScrollPane3.setViewportView(jtaMiniterminos);
 
+        jComboSitio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
+
+        jLabel6.setText("Sitio");
+
+        jbtnEnviar.setText("Enviar");
+        jbtnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnEnviarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -284,12 +304,25 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane3)
                 .addContainerGap())
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(141, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(jComboSitio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(jbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboSitio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jbtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -417,6 +450,18 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnpruebaActionPerformed
 
+    private void jbtnFragmentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFragmentosActionPerformed
+        String resultados = "";
+        
+        minitermino.setPredicados(predicados);
+        resultados = minitermino.checarPredicados();
+        jtaMiniterminos.setText(resultados);
+    }//GEN-LAST:event_jbtnFragmentosActionPerformed
+
+    private void jbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEnviarActionPerformed
+        minitermino.checarTabla1(predicados.get(0), predicados.get(1));
+    }//GEN-LAST:event_jbtnEnviarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -531,9 +576,9 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnprueba;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboAtributo;
     private javax.swing.JComboBox<String> jComboOperador;
+    private javax.swing.JComboBox<String> jComboSitio;
     private javax.swing.JComboBox<String> jComboTablas;
     private javax.swing.JComboBox<String> jComboValor;
     private javax.swing.JLabel jLabel1;
@@ -541,6 +586,7 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanePropiedades;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -555,6 +601,8 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableEsquema;
     private javax.swing.JButton jbtnAgregarPredicado;
+    private javax.swing.JButton jbtnEnviar;
+    private javax.swing.JButton jbtnFragmentos;
     private javax.swing.JTextArea jtaMiniterminos;
     private javax.swing.JTextArea jtaPredicados;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
