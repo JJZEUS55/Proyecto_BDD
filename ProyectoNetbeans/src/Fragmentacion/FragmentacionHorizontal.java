@@ -459,7 +459,20 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnFragmentosActionPerformed
 
     private void jbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEnviarActionPerformed
-        minitermino.checarTabla1(predicados.get(0), predicados.get(1));
+        
+        if(minitermino.m1 == true){
+            minitermino.checarTabla1();
+        }
+        if(minitermino.m2 == true){
+            minitermino.checarTabla2();
+        }
+        if(minitermino.m3 == true){
+            minitermino.checarTabla3();
+        }
+        if(minitermino.m4 == true){
+            minitermino.checarTabla4();
+        }
+        JOptionPane.showMessageDialog(this, "Registrado con Exito", "Registrado!!!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jbtnEnviarActionPerformed
 
     /**

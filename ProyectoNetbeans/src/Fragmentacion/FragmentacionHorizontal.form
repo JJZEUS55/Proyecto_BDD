@@ -112,13 +112,6 @@
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="jPanePropiedades">
-                  <Properties>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder justification="1" title="Definir Propiedades de Fragmentacion"/>
-                      </Border>
-                    </Property>
-                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="border" source="jPanePropiedades" sourcePath="${border}" target="jPanePropiedades" targetPath="border" updateStrategy="0" immediately="false">
                       <Property name="name" type="java.lang.String" value="Prueba"/>
