@@ -10,11 +10,17 @@ public class ConexionFragmento1 {
 //cambia 'hola' por tu usuario de mysql y 'contraseña' tu contraseña de mySQL
 //ese codigo es importante por que este hace la magia de que permitas a otras computadoras que accedan a tu base de datos
     public String bd = "fragmento1";
-    public String url = "jdbc:mysql://localhost:3306/" + bd;
+    //public String url = "jdbc:mysql://10.0.0.18:3306/" + bd;
+    public String url = null;
     public String user = "root";
     public String pass = "1234";
 
+    public ConexionFragmento1(String url) {
+        this.url = url + bd;
+    }
+
     public Connection Conectar() {
+        
         Connection link = null;
         try {
             Class.forName("org.gjt.mm.mysql.Driver");
@@ -24,6 +30,9 @@ public class ConexionFragmento1 {
             JOptionPane.showMessageDialog(null, e);
         }
         return link;
-
+    }
+    
+    public void setUrl(String url){
+        this.url = url + bd;
     }
 }

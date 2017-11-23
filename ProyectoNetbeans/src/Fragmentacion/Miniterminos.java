@@ -22,6 +22,11 @@ public class Miniterminos {
 
     public Miniterminos() {
     }
+    
+    public void setConeccion(int sitio){
+        
+        
+    }
 
     public ArrayList<PredicadosSimple> getPredicados() {
         return predicados;
@@ -160,8 +165,8 @@ public class Miniterminos {
         return funciona;
     }
 
-    public void checarTabla1() {
-        ConexionFragmento1 mysql = new ConexionFragmento1();
+    public void checarTabla1(String url) {
+        ConexionFragmento1 mysql = new ConexionFragmento1(url);
         Connection cn1 = mysql.Conectar();
 
         String sqlCrearTabla = "create table if not exists fragmento1." + predicados.get(0).getTabla() + "f1  \n"
@@ -195,8 +200,8 @@ public class Miniterminos {
 
     }
 
-    public void checarTabla2() {
-        ConexionFragmento1 mysql = new ConexionFragmento1();
+    public void checarTabla2(String url) {
+        ConexionFragmento1 mysql = new ConexionFragmento1(url);
         Connection cn1 = mysql.Conectar();
 
         String sqlCrearTabla = "create table if not exists fragmento1." + predicados.get(0).getTabla() + "f2  \n"
@@ -230,8 +235,8 @@ public class Miniterminos {
 
     }
 
-    public void checarTabla3() {
-        ConexionFragmento1 mysql = new ConexionFragmento1();
+    public void checarTabla3(String url) {
+        ConexionFragmento1 mysql = new ConexionFragmento1(url);
         Connection cn1 = mysql.Conectar();
 
         String sqlCrearTabla = "create table if not exists fragmento1." + predicados.get(0).getTabla() + "f3  \n"
@@ -265,8 +270,8 @@ public class Miniterminos {
 
     }
 
-    public void checarTabla4() {
-        ConexionFragmento1 mysql = new ConexionFragmento1();
+    public void checarTabla4(String url) {
+        ConexionFragmento1 mysql = new ConexionFragmento1(url);
         Connection cn1 = mysql.Conectar();
 
         String sqlCrearTabla = "create table if not exists fragmento1." + predicados.get(0).getTabla() + "f4  \n"

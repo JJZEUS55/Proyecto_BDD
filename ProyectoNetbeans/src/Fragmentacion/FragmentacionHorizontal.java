@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class FragmentacionHorizontal extends javax.swing.JFrame {
 
     private ArrayList<PredicadosSimple> predicados = new ArrayList<PredicadosSimple>();
-    Miniterminos minitermino = new Miniterminos();
+    private Miniterminos minitermino = new Miniterminos();
     //PredicadosSimple[] predicados = new PredicadosSimple[10];
     private static int contador = 0;
     String predicadosTotales;
@@ -68,7 +68,7 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
         jComboOperador = new javax.swing.JComboBox<>();
         jComboValor = new javax.swing.JComboBox<>();
         jbtnAgregarPredicado = new javax.swing.JButton();
-        btnprueba = new javax.swing.JButton();
+        jbtnLimpiar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -83,8 +83,6 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanePropiedades.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Definir Propiedades de Fragmentacion", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jPanePropiedades, org.jdesktop.beansbinding.ELProperty.create("${border}"), jPanePropiedades, org.jdesktop.beansbinding.BeanProperty.create("border"), "Prueba");
         bindingGroup.addBinding(binding);
@@ -178,10 +176,10 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
             }
         });
 
-        btnprueba.setText("prueba");
-        btnprueba.addActionListener(new java.awt.event.ActionListener() {
+        jbtnLimpiar.setText("Limpiar");
+        jbtnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnpruebaActionPerformed(evt);
+                jbtnLimpiarActionPerformed(evt);
             }
         });
 
@@ -191,22 +189,27 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
             jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPredicadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboAtributo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboOperador, 0, 136, Short.MAX_VALUE)
-                    .addComponent(jComboValor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnprueba)
-                .addGap(119, 119, 119))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPredicadosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbtnAgregarPredicado, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(232, 232, 232))
+                .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPredicadosLayout.createSequentialGroup()
+                        .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboAtributo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboOperador, 0, 136, Short.MAX_VALUE)
+                            .addComponent(jComboValor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPredicadosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPredicadosLayout.createSequentialGroup()
+                                .addComponent(jbtnAgregarPredicado, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(232, 232, 232))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPredicadosLayout.createSequentialGroup()
+                                .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))))))
         );
         jPanelPredicadosLayout.setVerticalGroup(
             jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,21 +218,18 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
                 .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboAtributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPredicadosLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jComboOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelPredicadosLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(btnprueba)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jComboOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanelPredicadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jComboValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addComponent(jbtnAgregarPredicado, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -305,7 +305,7 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
                 .addComponent(jScrollPane3)
                 .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(141, Short.MAX_VALUE)
+                .addContainerGap(151, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(jComboSitio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -430,47 +430,58 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
         contador++;
     }//GEN-LAST:event_jbtnAgregarPredicadoActionPerformed
 
-    private void btnpruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpruebaActionPerformed
+    private void jbtnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimpiarActionPerformed
 
-        ConexionMySQL mysql = new ConexionMySQL();
-        Connection cn = mysql.Conectar();
+        jtaPredicados.setText("");
+        jtaMiniterminos.setText("");
+        predicados = new ArrayList<PredicadosSimple>();
+        minitermino = new Miniterminos();
+        contador = 0;
+        predicadosTotales = "";
 
-        try {
-            Statement s = cn.createStatement();
-            ResultSet rs = s.executeQuery("select * from paciente where idPaciente=200");
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int numeroColumnas = rsmd.getColumnCount();
-            JOptionPane.showMessageDialog(this, rs.next(), "Si se pudo", WIDTH);
-
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Problema al conectar");
-        }
-
-
-    }//GEN-LAST:event_btnpruebaActionPerformed
+    }//GEN-LAST:event_jbtnLimpiarActionPerformed
 
     private void jbtnFragmentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFragmentosActionPerformed
         String resultados = "";
-        
+
         minitermino.setPredicados(predicados);
         resultados = minitermino.checarPredicados();
         jtaMiniterminos.setText(resultados);
     }//GEN-LAST:event_jbtnFragmentosActionPerformed
 
     private void jbtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEnviarActionPerformed
-        
-        if(minitermino.m1 == true){
-            minitermino.checarTabla1();
+
+        int sitio;
+        String url = null;
+        sitio = Integer.parseInt(jComboSitio.getSelectedItem().toString());
+        switch (sitio) {
+            case 1:
+                url = "jdbc:mysql://10.0.0.18:3306/";
+                break;
+
+            case 2:
+                url = "jdbc:mysql://10.0.0.18:3306/";
+                break;
+
+            case 3:
+                url = "jdbc:mysql://localhost:3306/";
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, "El sitio no existe verifiquelo", "ERROR!!!", JOptionPane.INFORMATION_MESSAGE);
+                break;
         }
-        if(minitermino.m2 == true){
-            minitermino.checarTabla2();
+
+        if (minitermino.m1 == true) {
+            minitermino.checarTabla1(url);
         }
-        if(minitermino.m3 == true){
-            minitermino.checarTabla3();
+        if (minitermino.m2 == true) {
+            minitermino.checarTabla2(url);
         }
-        if(minitermino.m4 == true){
-            minitermino.checarTabla4();
+        if (minitermino.m3 == true) {
+            minitermino.checarTabla3(url);
+        }
+        if (minitermino.m4 == true) {
+            minitermino.checarTabla4(url);
         }
         JOptionPane.showMessageDialog(this, "Registrado con Exito", "Registrado!!!", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jbtnEnviarActionPerformed
@@ -588,7 +599,6 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnprueba;
     private javax.swing.JComboBox<String> jComboAtributo;
     private javax.swing.JComboBox<String> jComboOperador;
     private javax.swing.JComboBox<String> jComboSitio;
@@ -616,6 +626,7 @@ public class FragmentacionHorizontal extends javax.swing.JFrame {
     private javax.swing.JButton jbtnAgregarPredicado;
     private javax.swing.JButton jbtnEnviar;
     private javax.swing.JButton jbtnFragmentos;
+    private javax.swing.JButton jbtnLimpiar;
     private javax.swing.JTextArea jtaMiniterminos;
     private javax.swing.JTextArea jtaPredicados;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
